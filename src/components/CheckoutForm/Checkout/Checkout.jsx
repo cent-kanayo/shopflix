@@ -16,10 +16,17 @@ import { commerce } from "../../../lib/commerce";
 import AddressForm from "../AddressForm";
 import PaymentForm from "../PaymentForm";
 import useStyles from "./styles";
+import { useGlobalContext } from "../../../context";
 
 const steps = ["Shipping address", "Payment details"];
 
-const Checkout = ({ cart, onCaptureCheckout, order, error }) => {
+const Checkout = () => {
+  const {
+    cart,
+    handleCaptureCheckout: onCaptureCheckout,
+    order,
+    errorMessage: error,
+  } = useGlobalContext();
   const [checkoutToken, setCheckoutToken] = useState(null);
   const [activeStep, setActiveStep] = useState(0);
   const [shippingData, setShippingData] = useState({});
@@ -57,17 +64,17 @@ const Checkout = ({ cart, onCaptureCheckout, order, error }) => {
     order.customer ? (
       <>
         <div>
-          <Typography variant='h5'>
+          <Typography variant="h5">
             Thank you for your purchase, {order.customer.firstname}{" "}
             {order.customer.lastname}!
           </Typography>
           <Divider className={classes.divider} />
-          <Typography variant='subtitle2'>
+          <Typography variant="subtitle2">
             Order ref: {order.customer_reference}
           </Typography>
         </div>
         <br />
-        <Button component={Link} variant='outlined' type='button' to='/'>
+        <Button component={Link} variant="outlined" type="button" to="/">
           Back to home
         </Button>
       </>
@@ -79,9 +86,9 @@ const Checkout = ({ cart, onCaptureCheckout, order, error }) => {
   if (error) {
     Confirmation = () => (
       <>
-        <Typography variant='h5'>Error: {error}</Typography>
+        <Typography variant="h5">Error: {error}</Typography>
         <br />
-        <Button component={Link} variant='outlined' type='button' to='/'>
+        <Button component={Link} variant="outlined" type="button" to="/">
           Back to home
         </Button>
       </>
@@ -110,7 +117,7 @@ const Checkout = ({ cart, onCaptureCheckout, order, error }) => {
       <div className={classes.toolbar} />
       <main className={classes.layout}>
         <Paper className={classes.paper}>
-          <Typography variant='h4' align='center'>
+          <Typography variant="h4" align="center">
             Checkout
           </Typography>
           <Stepper activeStep={activeStep} className={classes.stepper}>
